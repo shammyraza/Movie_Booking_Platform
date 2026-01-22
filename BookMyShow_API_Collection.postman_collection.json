@@ -1,0 +1,173 @@
+{
+  "info": {
+    "name": "BookMyShow API Collection",
+    "description": "Complete API collection for BookMyShow movie booking platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"testuser\",\n  \"email\": \"testuser@example.com\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/signup",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "auth", "signup"]
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"john\",\n  \"password\": \"password123\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/auth/login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "auth", "login"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Shows - READ Scenario",
+      "item": [
+        {
+          "name": "Browse Shows by Movie, City, Date",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "description": "Replace {{jwt_token}} with actual token from login"
+              }
+            ],
+            "url": {
+              "raw": "http://localhost:8080/api/shows/browse?movieId=1&city=Mumbai&date=2026-01-20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "shows", "browse"],
+              "query": [
+                {
+                  "key": "movieId",
+                  "value": "1",
+                  "description": "ID of the movie (1=Inception, 2=The Dark Knight, 3=RRR)"
+                },
+                {
+                  "key": "city",
+                  "value": "Mumbai",
+                  "description": "City name (Mumbai or Delhi)"
+                },
+                {
+                  "key": "date",
+                  "value": "2026-01-20",
+                  "description": "Date in format yyyy-MM-dd"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings - WRITE Scenario",
+      "item": [
+        {
+          "name": "Book Tickets (3 seats - 50% discount on 3rd)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "description": "Replace {{jwt_token}} with actual token from login"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"showId\": 1,\n  \"seatIds\": [1, 2, 3]\n}",
+              "description": "Book 3 seats - gets 50% discount on 3rd ticket"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/bookings",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "bookings"]
+            }
+          }
+        },
+        {
+          "name": "Book Afternoon Show (20% discount)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{jwt_token}}",
+                "description": "Replace {{jwt_token}} with actual token from login"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"showId\": 2,\n  \"seatIds\": [101, 102]\n}",
+              "description": "Book afternoon show - gets 20% discount"
+            },
+            "url": {
+              "raw": "http://localhost:8080/api/bookings",
+              "protocol": "http",
+              "host": ["localhost"],
+              "port": "8080",
+              "path": ["api", "bookings"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "jwt_token",
+      "value": "",
+      "type": "string",
+      "description": "JWT token received from login API"
+    }
+  ]
+}

@@ -1,1 +1,1 @@
-# Movie_Booking_Platform
+# Movie Booking Platform Assignment
